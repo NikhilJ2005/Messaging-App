@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Welcome To Messaging App</h1>
+<a class="btn btn-primary mb-4" href="{% url 'tweet_create' %}">Create a Tweet</a>
+<div class="container row gap-3">
+    {% if tweets %}
+        {% for tweet in tweets %}
+        <div class="card" style="width: 18rem;">
+            <img src="{{ tweet.photo.url }}" class="card-img-top" alt="{{ tweet.text | truncatechars:50 }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ tweet.user.username }}</h5>
+              <p class="card-text">{{ tweet.text }}</p>
+              {% if tweet.user == user %}
+              <a href="{% url 'tweet_edit' tweet.id %}" class="btn btn-primary">Edit</a>
+              <a href="{% url 'tweet_delete' tweet.id %}" class="btn btn-danger">Delete</a>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+    {% else %}
+        <p>No tweets to display.</p>
+    {% endif %}
+</div>
+
+{% endblock %}
